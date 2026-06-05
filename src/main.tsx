@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <CartProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="/GlowGirl">
           <App />
         </BrowserRouter>
       </CartProvider>
