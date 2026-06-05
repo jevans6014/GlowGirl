@@ -1,0 +1,22 @@
+project_id = "cvwprzwrfzpbykseqhnb"
+
+# Stripe and DB-webhook-triggered functions must NOT require a Supabase JWT,
+# since the caller (Stripe / Postgres trigger) doesn't send a user token.
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.send-contact-notification]
+verify_jwt = false
+
+[functions.send-event-notification]
+verify_jwt = false
+
+[functions.send-newsletter-welcome]
+verify_jwt = false
+
+# These are called from the browser with the anon key, so JWT verification is fine.
+[functions.create-checkout-session]
+verify_jwt = true
+
+[functions.create-appointment-deposit]
+verify_jwt = true
