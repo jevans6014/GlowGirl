@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Reveal } from "@/components/Reveal";
 import { ProductCard, ProductCardSkeleton } from "@/components/shop/ProductCard";
 import { useProducts } from "@/hooks/useProducts";
@@ -8,8 +8,9 @@ import { categoryBySlug } from "@/lib/shop";
 type SortKey = "featured" | "price-asc" | "price-desc";
 
 export default function Collection() {
-  const { category: slug } = useParams<{ category: string }>();
-  const meta = slug ? categoryBySlug(slug) : undefined;
+  const location = useLocation();
+  const slug = location.pathname.split('/').pop() || '';
+  const meta = categoryBySlug(slug);
   const { data, isLoading, error } = useProducts(meta?.category);
   const [sort, setSort] = useState<SortKey>("featured");
 

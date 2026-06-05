@@ -76,7 +76,11 @@ function FExt({ href, children }: { href: string; children: React.ReactNode }) {
 function FInt({ to, children }: { to: string; children: React.ReactNode }) {
   return (
     <li>
-      <Link to={to} className="text-cream/70 hover:text-pink-blush transition story-link">
+      <Link 
+        to={to} 
+        className="text-cream/70 hover:text-pink-blush transition story-link"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
         {children}
       </Link>
     </li>
