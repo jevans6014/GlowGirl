@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&display=swap");
 
 /* GLOWGIRL — Luxury feminine design system */
 :root {
@@ -16,6 +16,7 @@
   --pink-pale: #fde8ef;
   --cream: #fdf6f0;
   --gold: #c9a970;
+  --pink-logo: #f3a6c4;
   --gold-light: #f0ddb8;
   --charcoal: #2a2a2a;
   --mid-gray: #6b6b6b;
@@ -78,6 +79,7 @@
   --color-ring: var(--ring);
 
   /* Brand utility colors */
+  --color-pink-logo: var(--pink-logo);
   --color-pink-blush: var(--pink-blush);
   --color-pink-deep: var(--pink-deep);
   --color-pink-pale: var(--pink-pale);
@@ -117,6 +119,8 @@
 /* eslint-disable-next-line tailwindcss/no-custom-classname -- @utility is valid Tailwind v4 syntax */
 @utility font-display { font-family: var(--font-display); }
 @utility font-body { font-family: var(--font-body); }
+/* eslint-disable-next-line tailwindcss/no-custom-classname -- @utility is valid Tailwind v4 syntax */
+@utility font-script { font-family: "Dancing Script", cursive; }
 
 /* eslint-disable-next-line tailwindcss/no-custom-classname -- @utility is valid Tailwind v4 syntax */
 @utility btn-primary {

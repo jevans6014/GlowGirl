@@ -31,12 +31,21 @@ export function Nav() {
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled ? "frost border-b border-border/70" : "bg-transparent"
+        scrolled || menuOpen ? "frost border-b border-border/70" : "bg-transparent"
       }`}
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 sm:h-20 flex items-center justify-between">
-        <Link to="/" className="font-display text-2xl sm:text-[28px] tracking-[0.32em] text-charcoal">
-          GLOWGIRL
+        <Link
+          to="/"
+          aria-label="GLOWGIRL home"
+          className="flex flex-col items-center leading-none text-pink-logo"
+        >
+          <span className="font-script text-[34px] sm:text-[40px] leading-[0.85] -mb-1">
+            glow
+          </span>
+          <span className="font-body text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.5em] pl-[0.5em]">
+            girl
+          </span>
         </Link>
         <nav className="hidden lg:flex items-center gap-8 text-sm text-charcoal font-body">
           {NAV.map((item) =>
@@ -78,18 +87,9 @@ export function Nav() {
             onClick={() => setMenuOpen((v) => !v)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
-            className="relative p-2.5 text-charcoal"
+            className="p-2.5 text-charcoal"
           >
-            <Menu
-              className={`h-6 w-6 transition-all duration-300 ${
-                menuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
-              }`}
-            />
-            <X
-              className={`absolute inset-0 m-auto h-6 w-6 transition-all duration-300 ${
-                menuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
-              }`}
-            />
+            {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
