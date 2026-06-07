@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X, Instagram, Facebook, ShoppingBag } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { NAV, LINKS, ROUTES } from "@/lib/site";
@@ -8,7 +8,6 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { count } = useCart();
-  const menuRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -19,17 +18,19 @@ export function Nav() {
   
   useEffect(() => {
     if (open) {
-      document.body.style.overflow = 'hidden';
-      // Scroll menu to top when it opens
-      if (menuRef.current) {
-        menuRef.current.scrollTop = 0;
-      }
+      // Lock body scroll and save current position
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
     } else {
-      document.body.style.overflow = '';
+      // Restore body scroll position
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
   }, [open]);
   return (
     <header
@@ -88,54 +89,57 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
-            ref={menuRef}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-cream flex flex-col overflow-y-auto"
+            className="fixed inset-0 z-[60] bg-cream"
           >
-            <div className="flex items-center justify-between px-5 h-16">
-              <span className="font-display text-xl tracking-[0.32em]">GLOWGIRL</span>
-              <button aria-label="Close menu" onClick={() => setOpen(false)} className="p-2 -mr-2">
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <nav className="flex-1 flex flex-col items-center justify-center gap-7 font-display text-3xl text-charcoal">
-              {NAV.map((item) =>
-                "external" in item && item.external ? (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  <Link key={item.label} to={item.to} onClick={() => setOpen(false)}>
-                    {item.label}
+            <div className="h-full overflow-y-auto">
+              <div className="min-h-full flex flex-col">
+                <div className="flex items-center justify-between px-5 h-16 flex-shrink-0">
+                  <span className="font-display text-xl tracking-[0.32em]">GLOWGIRL</span>
+                  <button aria-label="Close menu" onClick={() => setOpen(false)} className="p-2 -mr-2">
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+                <nav className="flex-1 flex flex-col items-center justify-center gap-7 font-display text-3xl text-charcoal py-10">
+                  {NAV.map((item) =>
+                    "external" in item && item.external ? (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link key={item.label} to={item.to} onClick={() => setOpen(false)}>
+                        {item.label}
+                      </Link>
+                    ),
+                  )}
+                  <Link to="/contact" onClick={() => setOpen(false)}>
+                    Contact
                   </Link>
-                ),
-              )}
-              <Link to="/contact" onClick={() => setOpen(false)}>
-                Contact
-              </Link>
-            </nav>
-            <div className="px-6 pb-10 flex flex-col gap-3">
-              <Link to={ROUTES.book} onClick={() => setOpen(false)} className="btn-primary w-full">
-                Book Permanent Jewelry
-              </Link>
-              <Link to={ROUTES.shopAll} onClick={() => setOpen(false)} className="btn-secondary w-full">
-                Shop Jewelry
-              </Link>
-              <div className="flex justify-center gap-5 pt-4 text-charcoal">
-                <a href={LINKS.instagram} aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a href={LINKS.facebookBrand} aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-                  <Facebook className="w-5 h-5" />
-                </a>
+                </nav>
+                <div className="px-6 pb-10 flex flex-col gap-3 flex-shrink-0">
+                  <Link to={ROUTES.book} onClick={() => setOpen(false)} className="btn-primary w-full">
+                    Book Permanent Jewelry
+                  </Link>
+                  <Link to={ROUTES.shopAll} onClick={() => setOpen(false)} className="btn-secondary w-full">
+                    Shop Jewelry
+                  </Link>
+                  <div className="flex justify-center gap-5 pt-4 text-charcoal">
+                    <a href={LINKS.instagram} aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                      <Instagram className="w-5 h-5" />
+                    </a>
+                    <a href={LINKS.facebookBrand} aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                      <Facebook className="w-5 h-5" />
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
