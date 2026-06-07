@@ -28,6 +28,8 @@ export default function CollectionsPage() {
                 <img 
                   src={c.image} 
                   alt={c.name}
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />

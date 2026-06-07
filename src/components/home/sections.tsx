@@ -40,6 +40,14 @@ export function Hero() {
               Shop Jewelry
             </Link>
           </div>
+          <div className="mt-4 flex justify-center">
+            <Link
+              to="/try-on"
+              className="story-link inline-flex items-center gap-1.5 text-sm font-medium text-pink-deep"
+            >
+              <Camera className="w-4 h-4" /> Try jewelry on with your camera ✨
+            </Link>
+          </div>
           <div className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-charcoal/75">
             <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5 fill-gold text-gold" /> 4.9 Google Rating</span>
             <span>🎀 Since 2018</span>
@@ -143,6 +151,8 @@ export function Collections() {
                 <img 
                   src={c.image} 
                   alt={c.name}
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
@@ -372,6 +382,8 @@ export function InstagramTeaser() {
               <img 
                 src={src} 
                 alt={`GLOWGIRL Instagram post ${i + 1}`}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

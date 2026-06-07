@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Trash2, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { ROUTES } from "@/lib/site";
+import { productPath } from "@/lib/shop";
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, total, keyFor, count } = useCart();
@@ -38,7 +39,7 @@ export default function CartPage() {
                   <div className="flex flex-1 flex-col">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <Link to={`/shop/${item.slug}`} className="font-display text-lg leading-tight">
+                        <Link to={productPath(item.slug)} className="font-display text-lg leading-tight">
                           {item.name}
                         </Link>
                         {item.variantLabel && (

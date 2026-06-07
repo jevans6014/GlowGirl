@@ -6,6 +6,7 @@ import { useProduct } from "@/hooks/useProducts";
 import { useCart } from "@/context/CartContext";
 import { gradientFor } from "@/lib/gradients";
 import { ROUTES } from "@/lib/site";
+import { useSEO } from "@/hooks/useSEO";
 
 export default function Product() {
   const { slug } = useParams<{ slug: string }>();
@@ -15,6 +16,11 @@ export default function Product() {
   const [variantId, setVariantId] = useState<string | null>(null);
   const [customText, setCustomText] = useState("");
   const [qty, setQty] = useState(1);
+
+  useSEO({
+    title: product?.name ?? "Product",
+    description: product?.description ?? undefined,
+  });
 
   if (isLoading) {
     return (

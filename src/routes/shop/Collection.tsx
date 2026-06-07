@@ -1,18 +1,23 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Reveal } from "@/components/Reveal";
 import { ProductCard, ProductCardSkeleton } from "@/components/shop/ProductCard";
 import { useProducts } from "@/hooks/useProducts";
 import { categoryBySlug } from "@/lib/shop";
+import { useSEO } from "@/hooks/useSEO";
 
 type SortKey = "featured" | "price-asc" | "price-desc";
 
 export default function Collection() {
-  const location = useLocation();
-  const slug = location.pathname.split('/').pop() || '';
-  const meta = categoryBySlug(slug);
+  const { category = "" } = useParams<{ category: string }>();
+  const meta = categoryBySlug(category);
   const { data, isLoading, error } = useProducts(meta?.category);
   const [sort, setSort] = useState<SortKey>("featured");
+
+  useSEO({
+    title: meta?.title ?? "Shop",
+    description: meta?.blurb,
+  });
 
   if (!meta) {
     return (

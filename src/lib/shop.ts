@@ -54,3 +54,17 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
 export function categoryBySlug(slug: string) {
   return SHOP_CATEGORIES.find((c) => c.slug === slug);
 }
+
+/** Canonical URL for a collection/category page. */
+export function collectionPath(slug: string) {
+  return `/shop/${slug}`;
+}
+
+/**
+ * Canonical URL for a product detail page.
+ * Products live under `/shop/p/:slug` so product slugs can never
+ * collide with collection slugs (e.g. a product named "chains").
+ */
+export function productPath(slug: string) {
+  return `/shop/p/${slug}`;
+}

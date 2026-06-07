@@ -3,6 +3,7 @@ import { ShoppingBag, Sparkles as SparklesIcon } from "lucide-react";
 import { toast } from "sonner";
 import { useCart } from "@/context/CartContext";
 import { gradientFor } from "@/lib/gradients";
+import { productPath } from "@/lib/shop";
 import type { ProductWithVariants } from "@/hooks/useProducts";
 
 export function ProductCard({ product }: { product: ProductWithVariants }) {
@@ -26,7 +27,7 @@ export function ProductCard({ product }: { product: ProductWithVariants }) {
   return (
     <div className="group flex flex-col">
       <Link
-        to={`/shop/${product.slug}`}
+        to={productPath(product.slug)}
         className="relative block aspect-[3/4] overflow-hidden rounded-2xl shadow-[var(--shadow-card)] transition group-hover:shadow-[var(--shadow-soft)]"
       >
         <div className={`absolute inset-0 bg-gradient-to-br ${grad}`} />
@@ -41,7 +42,7 @@ export function ProductCard({ product }: { product: ProductWithVariants }) {
       </Link>
       <div className="mt-3 flex items-start justify-between gap-2">
         <div>
-          <Link to={`/shop/${product.slug}`} className="story-link font-display text-lg leading-tight">
+          <Link to={productPath(product.slug)} className="story-link font-display text-lg leading-tight">
             {product.name}
           </Link>
           <p className="text-sm text-mid-gray">
@@ -50,7 +51,7 @@ export function ProductCard({ product }: { product: ProductWithVariants }) {
         </div>
         {hasVariants || product.customizable ? (
           <Link
-            to={`/shop/${product.slug}`}
+            to={productPath(product.slug)}
             className="shrink-0 rounded-full bg-pink-pale p-2.5 text-charcoal transition hover:bg-pink-blush"
             aria-label={`View ${product.name}`}
           >

@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import { Sparkles as SparklesIcon } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
-import { SHOP_CATEGORIES } from "@/lib/shop";
+import { SHOP_CATEGORIES, collectionPath } from "@/lib/shop";
 import { ROUTES } from "@/lib/site";
+import { useSEO } from "@/hooks/useSEO";
 
 export default function ShopIndex() {
+  useSEO({
+    title: "Shop the Collections",
+    description:
+      "Tarnish-free, waterproof chains, charms, earrings & custom nameplates from GLOWGIRL.",
+    path: "/shop",
+  });
   return (
     <>
       <section className="hero-gradient py-20 sm:py-28">
@@ -21,7 +28,7 @@ export default function ShopIndex() {
           {SHOP_CATEGORIES.map((c, i) => (
             <Reveal key={c.slug} delay={i}>
               <Link
-                to={`/shop/${c.slug}`}
+                to={collectionPath(c.slug)}
                 className="group relative block aspect-[3/4] overflow-hidden rounded-2xl shadow-[var(--shadow-card)] transition hover:shadow-[var(--shadow-soft)]"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${c.gradient}`} />
