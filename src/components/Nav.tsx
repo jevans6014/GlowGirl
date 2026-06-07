@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Menu, X, Instagram, Facebook, ShoppingBag } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { NAV, LINKS, ROUTES } from "@/lib/site";
@@ -8,6 +8,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { count } = useCart();
+  const menuRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -19,6 +20,10 @@ export function Nav() {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
+      // Scroll menu to top when it opens
+      if (menuRef.current) {
+        menuRef.current.scrollTop = 0;
+      }
     } else {
       document.body.style.overflow = '';
     }
@@ -83,6 +88,7 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={menuRef}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
