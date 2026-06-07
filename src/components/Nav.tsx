@@ -8,12 +8,24 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { count } = useCart();
+  
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -74,7 +86,7 @@ export function Nav() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-cream flex flex-col"
+            className="fixed inset-0 z-[60] bg-cream flex flex-col overflow-y-auto"
           >
             <div className="flex items-center justify-between px-5 h-16">
               <span className="font-display text-xl tracking-[0.32em]">GLOWGIRL</span>
