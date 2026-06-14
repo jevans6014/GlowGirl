@@ -17,12 +17,12 @@ Task ID prefix = repo/owner boundary (so ownership is obvious from the ID):
 ## A. Repository Ownership Map
 
 | Repository | Owner | Contents | The other engineer may… |
-|---|---|---|---|
-| `infra` | **Brayden** | Terraform: VPC, ECS cluster, ALB, RDS, ElastiCache, ECR, OIDC, modules (`shared-runtime`, `client-site`, `database`, `data-platform`) | open PRs for data-platform module (Julian) — Brayden reviews |
-| `agency-platform` | **Brayden** | `packages/{core,cms,commerce,booking,forms,ui,analytics-sdk-php}`, `runtime/` (T0 shared app), `template/`, `docs/` | consume packages only; never edit |
-| `platform-template` | **Brayden** | GitHub template → new T1 client repos | consume only |
-| `agency-data` | **Julian** | `ingest/`, `warehouse/` (dbt + semantic), `ml/`, `dashboard-api/`, `analytics-sdk-js/` | consume `dashboard-api` + emit events only |
-| `glowgirl` | **Shared** | Pilot T1 app; bespoke try-on | both work here during Phase 4 — split by directory (see Phase 4) |
+|:-----------|:------|:---------|:------------------------|
+| `infra` | Brayden | Terraform: VPC, ECS, ALB, RDS, ElastiCache, ECR, OIDC<br/>modules: shared-runtime, client-site, database, data-platform | open PRs for data-platform module (Julian) — Brayden reviews |
+| `agency-platform` | Brayden | packages: core, cms, commerce, booking, forms, ui, analytics-sdk-php<br/>runtime (T0), template, docs | consume packages only; never edit |
+| `platform-template` | Brayden | GitHub template → new T1 client repos | consume only |
+| `agency-data` | Julian | ingest, warehouse (dbt), ml, dashboard-api, analytics-sdk-js | consume dashboard-api + emit events only |
+| `glowgirl` | Shared | Pilot T1 app; bespoke try-on | both work here during Phase 4 — split by directory |
 
 **Boundary rule:** `agency-platform` emits events and exposes the Services layer; `agency-data` ingests events and exposes `dashboard-api` + feature store. Neither reads the other's database. The event lake and the contracts are the only seams.
 
