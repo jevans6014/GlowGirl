@@ -66,6 +66,16 @@ Two independent build tracks running at the same time:
 ---
 
 ## Status — what's actually done
-- ⚪ **Not started.** Phase 2 begins once Phase 0's docker-compose stack is running. Note the JS SDK (`DATA-004`) already has a stubbed `track`/`identify` interface scaffolded in `agency-data/analytics-sdk-js` from Phase 0.
-- **No AWS blockers** — everything in this phase runs locally.
-- Detailed step-by-step build order for Julian's track is in [`../JULIAN_TASK_PLAN.md`](../JULIAN_TASK_PLAN.md) Steps 5–11.
+- 🟢 **Phase 2 COMPLETE (Julian's track)** — All DATA tasks finished:
+  - ✅ DATA-002: MinIO buckets + Postgres warehouse DB (docker-compose)
+  - ✅ DATA-003: Event collector (FastAPI, validates CTR-001, writes to MinIO)
+  - ✅ DATA-004: Browser SDK (batching, consent, retry, sendBeacon, UUIDv7)
+  - ✅ DATA-005: dbt profiles.yml (local Postgres connection)
+  - ✅ DATA-006: dbt staging models (5 event types: page_viewed, session_started, form_submitted, lead_captured, order_completed)
+  - ✅ DATA-007: Identity resolution (identity_graph mart stitching anonymous_id → lead_id → customer_id)
+  - 📋 DATA-008: Cross-repo contract CI (deferred to Phase 3 integration)
+- **Verification:** See `agency-data/PHASE2_VERIFICATION.md` for end-to-end testing guide
+- **No AWS dependencies** — entire pipeline runs locally
+- ⚪ **Brayden's track:** CMS packages, PHP SDK (tracked separately)
+
+**Ready for Phase 3:** Multi-tenant runtime + event emission integration

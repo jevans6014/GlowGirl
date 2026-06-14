@@ -52,7 +52,7 @@ only seams. This is why both people can build in parallel without stepping on ea
 |:------|:----|:--------------|:-------|
 | 0 | [phase-0-foundations.md](./phase-0-foundations.md) | **Local docker-compose stack** (Postgres, MinIO, Redis) — no AWS yet | � **Complete** |
 | 1 | [phase-1-contracts.md](./phase-1-contracts.md) | Lock every contract so the two planes can build in isolation | 🟡 In progress |
-| 2 | [phase-2-platform-core-and-data-foundation.md](./phase-2-platform-core-and-data-foundation.md) | Build CMS packages + **local** ingestion/warehouse in parallel | ⚪ Not started |
+| 2 | [phase-2-platform-core-and-data-foundation.md](./phase-2-platform-core-and-data-foundation.md) | Build CMS packages + **local** ingestion/warehouse in parallel | 🟢 **Complete** (Julian) |
 | 3 | [phase-3-shared-runtime-and-events.md](./phase-3-shared-runtime-and-events.md) | Multi-tenant runtime + events — **all running locally** | ⚪ Not started |
 | 4 | [phase-4-glowgirl-pilot.md](./phase-4-glowgirl-pilot.md) | GlowGirl pilot **validated locally** before production | ⚪ Not started |
 | 5 | [phase-5-owner-dashboard.md](./phase-5-owner-dashboard.md) | Business owners see trustworthy metrics (local dev) | ⚪ Not started |
@@ -67,13 +67,15 @@ only seams. This is why both people can build in parallel without stepping on ea
 
 ## What's actually done right now (June 2026)
 
-- ✅ **Phase 0 COMPLETE** — Local development stack ready:
-  - DATA-001: `agency-data` monorepo pushed to Up-Keep/agency-data
-  - LOCAL-001: docker-compose stack (Postgres, MinIO, Redis, event collector)
-  - Event collector validates CTR-001, writes to MinIO
-  - LOCAL_DEVELOPMENT.md guide created
-- 🟡 **Phase 1 (in progress)** — CTR-001 drafted as `v0.1.0-draft` (9 event schemas + envelope + validator + 20 passing tests). *Pending: D4 sign-off before publishing.*
-- 📋 **Next: Phase 2** — dbt staging models, identity resolution, JS SDK implementation
+- ✅ **Phase 0 COMPLETE** — Local development stack ready
+- ✅ **Phase 2 COMPLETE (Julian)** — Full data pipeline operational:
+  - Event collector (FastAPI) validating CTR-001
+  - Browser SDK (batching, consent, retry, UUIDv7)
+  - dbt warehouse (5 staging models + identity resolution)
+  - End-to-end: SDK → collector → MinIO → dbt → queryable marts
+  - See `agency-data/PHASE2_VERIFICATION.md` for testing guide
+- 🟡 **Phase 1 (in progress)** — CTR-001 drafted as `v0.1.0-draft`. *Pending: D4 sign-off before publishing.*
+- 📋 **Next: Phase 3** — Multi-tenant runtime + event emission (requires Brayden's operational packages)
 
 See [phase-0-foundations.md](./phase-0-foundations.md) and [phase-1-contracts.md](./phase-1-contracts.md) for the blow-by-blow, and
 [`../JULIAN_TASK_PLAN.md`](../JULIAN_TASK_PLAN.md) for Julian's full ordered build book.
