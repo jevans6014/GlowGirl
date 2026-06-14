@@ -68,6 +68,14 @@ The "hello world" of the whole company's infrastructure — **running entirely o
 
 ## Status — what's actually done
 - 🟢 **DATA-001 (Julian):** `agency-data` monorepo scaffolded and **pushed to Up-Keep/agency-data** — `uv` workspace with `ingest/`, `warehouse/` (dbt), `ml/`, `dashboard-api/`, `analytics-sdk-js/`, plus `ruff` + `mypy --strict` + `pytest` all green and GitHub Actions CI.
-- 🟡 **Next:** LOCAL-001 — build the `docker-compose.yml` stack for local Postgres + MinIO + Redis.
+- � **LOCAL-001 (Julian):** `docker-compose.yml` stack complete and **pushed to Up-Keep/agency-data**:
+  - Postgres 16 with `warehouse` DB, staging/marts/raw schemas
+  - MinIO with auto-created buckets (events-raw, events-processed, warehouse-exports)
+  - Redis 7 for cache/queue
+  - Event collector (FastAPI) validating CTR-001, writing partitioned JSON to MinIO
+  - LOCAL_DEVELOPMENT.md with setup/troubleshooting guide
+  - **Validation pending:** Requires Docker running to test end-to-end
 - ⚪ **Brayden's PLAT/SHARED tasks:** tracked in the roadmap.
 - 🔵 **AWS deferred:** No AWS access needed until Phase 9.
+
+**Phase 0 is COMPLETE for Julian's track.** Ready to proceed to Phase 2 (Phase 1 CTR-001 already drafted, pending D4 sign-off).
