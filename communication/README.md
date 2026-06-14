@@ -1,5 +1,7 @@
 # Communication Layer — Human-Readable Execution Guide
 
+> **🔵 LOCAL-FIRST APPROACH:** The entire platform is built and validated locally (docker-compose) before touching AWS. See [`LOCAL_FIRST_APPROACH.md`](./LOCAL_FIRST_APPROACH.md) for the strategy.
+
 This directory is the **plain-English execution layer** for the platform. It translates the
 architecture in [`../PLATFORM_ROADMAP.md`](../PLATFORM_ROADMAP.md) into build plans an engineer
 can act on today.
@@ -48,15 +50,16 @@ only seams. This is why both people can build in parallel without stepping on ea
 
 | Phase | Doc | One-line goal | Status |
 |:------|:----|:--------------|:-------|
-| 0 | [phase-0-foundations.md](./phase-0-foundations.md) | Both engineers can deploy a "hello" container and run CI | 🟡 In progress |
+| 0 | [phase-0-foundations.md](./phase-0-foundations.md) | **Local docker-compose stack** (Postgres, MinIO, Redis) — no AWS yet | 🟡 In progress |
 | 1 | [phase-1-contracts.md](./phase-1-contracts.md) | Lock every contract so the two planes can build in isolation | 🟡 In progress |
-| 2 | [phase-2-platform-core-and-data-foundation.md](./phase-2-platform-core-and-data-foundation.md) | Build CMS packages (Brayden) + ingestion/warehouse (Julian) in parallel | ⚪ Not started |
-| 3 | [phase-3-shared-runtime-and-events.md](./phase-3-shared-runtime-and-events.md) | One multi-tenant app serves many clients; every site emits events | ⚪ Not started |
-| 4 | [phase-4-glowgirl-pilot.md](./phase-4-glowgirl-pilot.md) | Rebuild GlowGirl on the platform; prove the event pipeline on real traffic | ⚪ Not started |
-| 5 | [phase-5-owner-dashboard.md](./phase-5-owner-dashboard.md) | Business owners see trustworthy traffic/leads/revenue metrics | ⚪ Not started |
-| 6 | [phase-6-client-onboarding.md](./phase-6-client-onboarding.md) | A new client is config, not a new codebase (the ≤5-engineer-days goal) | ⚪ Not started |
-| 7 | [phase-7-ai-foundation.md](./phase-7-ai-foundation.md) | Turn the dataset into features, RAG support bots, and AI page drafting | ⚪ Not started |
+| 2 | [phase-2-platform-core-and-data-foundation.md](./phase-2-platform-core-and-data-foundation.md) | Build CMS packages + **local** ingestion/warehouse in parallel | ⚪ Not started |
+| 3 | [phase-3-shared-runtime-and-events.md](./phase-3-shared-runtime-and-events.md) | Multi-tenant runtime + events — **all running locally** | ⚪ Not started |
+| 4 | [phase-4-glowgirl-pilot.md](./phase-4-glowgirl-pilot.md) | GlowGirl pilot **validated locally** before production | ⚪ Not started |
+| 5 | [phase-5-owner-dashboard.md](./phase-5-owner-dashboard.md) | Business owners see trustworthy metrics (local dev) | ⚪ Not started |
+| 6 | [phase-6-client-onboarding.md](./phase-6-client-onboarding.md) | A new client is config, not a new codebase | ⚪ Not started |
+| 7 | [phase-7-ai-foundation.md](./phase-7-ai-foundation.md) | Turn the dataset into features, RAG support bots, AI drafting | ⚪ Not started |
 | 8 | [phase-8-scale.md](./phase-8-scale.md) | Absorb 100–500 clients without rewrites | ⚪ Not started |
+| **9** | **[phase-9-aws-migration.md](./phase-9-aws-migration.md)** | **Lift local stack to AWS** (RDS, S3, ECS, ALB) — production deployment | ⚪ **Not started** |
 
 **Status legend:** 🟢 Done · 🟡 In progress · ⚪ Not started · 🔴 Blocked
 
@@ -64,8 +67,9 @@ only seams. This is why both people can build in parallel without stepping on ea
 
 ## What's actually done right now (June 2026)
 
-- **DATA-001 (Phase 0)** — `agency-data` monorepo scaffolded, CI green locally, committed. *Pending: create the GitHub repo + push.*
+- **DATA-001 (Phase 0)** — `agency-data` monorepo scaffolded, CI green, **pushed to Up-Keep/agency-data**. ✅
 - **CTR-001 (Phase 1)** — event contract drafted as `v0.1.0-draft` (9 event schemas + envelope + validator + 20 passing tests). *Pending: D4 sign-off before publishing.*
+- **LOCAL-FIRST STRATEGY** — documented in [`LOCAL_FIRST_APPROACH.md`](./LOCAL_FIRST_APPROACH.md). Next: build the docker-compose stack.
 
 See [phase-0-foundations.md](./phase-0-foundations.md) and [phase-1-contracts.md](./phase-1-contracts.md) for the blow-by-blow, and
 [`../JULIAN_TASK_PLAN.md`](../JULIAN_TASK_PLAN.md) for Julian's full ordered build book.
@@ -83,3 +87,16 @@ can fork in the wrong direction. Full detail in [phase-1-contracts.md](./phase-1
 | **D2** | React + Inertia (not Vue) | ⏳ Needs sign-off | Changes the `ui` package + every page; ~40% cheaper pilot in React |
 | **D3** | Tailwind v4 design tokens | ✅ Settled | How per-client theming works |
 | **D4** | Tiered tenancy: T0 shared / T1 isolated / T2 premium | ⏳ **Most important** | Decides whether the shared runtime gets built at all; freezes `tenant_id` format |
+
+---
+
+## 🔵 Local-first development (read this first)
+
+**The entire platform is built locally before AWS deployment.** This means:
+
+- **Phases 0–8:** Everything runs in docker-compose (Postgres, MinIO, Redis, runtime, collector, dbt).
+- **Phase 9:** Only after local validation, lift the stack to AWS (RDS, S3, ECS, ALB).
+- **Why:** Faster iteration (seconds vs minutes), zero cloud cost during development, visual feedback (MinIO web UI, local database queries), simpler debugging.
+- **The contract:** If it works locally, it works on AWS. Migration is configuration, not code.
+
+See **[`LOCAL_FIRST_APPROACH.md`](./LOCAL_FIRST_APPROACH.md)** for the full strategy, local stack details, and success criteria.
